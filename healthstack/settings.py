@@ -34,12 +34,12 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-build-only-placeholder')
 DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = [
+    '*',
     '192.168.0.100',
     '127.0.0.1',
     'localhost',
     '.vercel.app',
     'hospital-tawny-two.vercel.app',
-    '5749-103-109-53-5.in.ngrok.io',
 ]
 # ALLOWED_HOSTS = ['mobile view', 'local host','ngrok -- keeps on changing']
 
