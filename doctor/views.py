@@ -23,6 +23,7 @@ import string
 from datetime import datetime, timedelta
 import datetime
 import re
+from types import SimpleNamespace
 from django.core.mail import BadHeaderError, send_mail
 from django.template.loader import render_to_string
 from django.http import HttpResponse
@@ -167,18 +168,37 @@ def doctor_dashboard(request):
         if request.user.is_authenticated:    
             if request.user.is_doctor:
                 # doctor = Doctor_Information.objects.get(user_id=pk)
-                doctor = Doctor_Information.objects.get(user=request.user)
+                doctor = Doctor_Information.objects.filter(user=request.user).first()
+                missing_profile = doctor is None
+                if doctor is None:
+                    doctor = SimpleNamespace(
+                        name=request.user.username,
+                        username=request.user.username,
+                        featured_image='doctors/user-default.png',
+                        department_name=None,
+                        hospital_name=None,
+                        visiting_hour='',
+                        consultation_fee='',
+                        report_fee='',
+                        user=request.user,
+                    )
                 # appointments = Appointment.objects.filter(doctor=doctor).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed'))
                 current_date = datetime.date.today()
                 current_date_str = str(current_date)  
-                today_appointments = Appointment.objects.filter(date=current_date_str).filter(doctor=doctor).filter(appointment_status='confirmed')
+                if missing_profile:
+                    today_appointments = Appointment.objects.none()
+                    next_days_appointment = 0
+                    today_patient_count = Appointment.objects.none()
+                    total_appointments_count = Appointment.objects.none()
+                else:
+                    today_appointments = Appointment.objects.filter(date=current_date_str).filter(doctor=doctor).filter(appointment_status='confirmed')
                 
-                next_date = current_date + datetime.timedelta(days=1) # next days date 
-                next_date_str = str(next_date)  
-                next_days_appointment = Appointment.objects.filter(date=next_date_str).filter(doctor=doctor).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
-                
-                today_patient_count = Appointment.objects.filter(date=current_date_str).filter(doctor=doctor).annotate(count=Count('patient'))
-                total_appointments_count = Appointment.objects.filter(doctor=doctor).annotate(count=Count('id'))
+                    next_date = current_date + datetime.timedelta(days=1) # next days date 
+                    next_date_str = str(next_date)  
+                    next_days_appointment = Appointment.objects.filter(date=next_date_str).filter(doctor=doctor).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
+                    
+                    today_patient_count = Appointment.objects.filter(date=current_date_str).filter(doctor=doctor).annotate(count=Count('patient'))
+                    total_appointments_count = Appointment.objects.filter(doctor=doctor).annotate(count=Count('id'))
             else:
                 return redirect('doctor-logout')
             

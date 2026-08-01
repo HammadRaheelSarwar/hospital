@@ -20,6 +20,7 @@ from .forms import AdminUserCreationForm, LabWorkerCreationForm, EditHospitalFor
 from .models import Admin_Information,specialization,service,hospital_department, Clinical_Laboratory_Technician, Test_Information
 import random,re
 import string
+from types import SimpleNamespace
 from django.db.models import  Count
 from datetime import datetime
 import datetime
@@ -40,18 +41,40 @@ from hospital.demo_logins import get_demo_login
 def admin_dashboard(request):
     # admin = Admin_Information.objects.get(user_id=pk)
     if request.user.is_hospital_admin:
-        user = Admin_Information.objects.get(user=request.user)
-        total_patient_count = Patient.objects.annotate(count=Count('patient_id'))
-        total_doctor_count = Doctor_Information.objects.annotate(count=Count('doctor_id'))
-        total_pharmacist_count = Pharmacist.objects.annotate(count=Count('pharmacist_id'))
-        total_hospital_count = Hospital_Information.objects.annotate(count=Count('hospital_id'))
-        total_labworker_count = Clinical_Laboratory_Technician.objects.annotate(count=Count('technician_id'))
-        pending_appointment = Appointment.objects.filter(appointment_status='pending').count()
-        doctors = Doctor_Information.objects.all()
-        patients = Patient.objects.all()
-        hospitals = Hospital_Information.objects.all()
-        lab_workers = Clinical_Laboratory_Technician.objects.all()
-        pharmacists = Pharmacist.objects.all()
+        user = Admin_Information.objects.filter(user=request.user).first()
+        missing_profile = user is None
+        if user is None:
+            user = SimpleNamespace(
+                username=request.user.username,
+                name=request.user.username,
+                featured_image='admin/user-default.png',
+                role='hospital',
+                user=request.user,
+            )
+        if missing_profile:
+            total_patient_count = []
+            total_doctor_count = []
+            total_pharmacist_count = []
+            total_hospital_count = []
+            total_labworker_count = []
+            pending_appointment = 0
+            doctors = []
+            patients = []
+            hospitals = []
+            lab_workers = []
+            pharmacists = []
+        else:
+            total_patient_count = Patient.objects.annotate(count=Count('patient_id'))
+            total_doctor_count = Doctor_Information.objects.annotate(count=Count('doctor_id'))
+            total_pharmacist_count = Pharmacist.objects.annotate(count=Count('pharmacist_id'))
+            total_hospital_count = Hospital_Information.objects.annotate(count=Count('hospital_id'))
+            total_labworker_count = Clinical_Laboratory_Technician.objects.annotate(count=Count('technician_id'))
+            pending_appointment = Appointment.objects.filter(appointment_status='pending').count()
+            doctors = Doctor_Information.objects.all()
+            patients = Patient.objects.all()
+            hospitals = Hospital_Information.objects.all()
+            lab_workers = Clinical_Laboratory_Technician.objects.all()
+            pharmacists = Pharmacist.objects.all()
         
         sat_date = datetime.date.today()
         sat_date_str = str(sat_date)
@@ -81,13 +104,16 @@ def admin_dashboard(request):
         fri_date_str = str(fri_date)
         fri = fri_date.strftime("%A")
         
-        sat_count = Appointment.objects.filter(date=sat_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
-        sun_count = Appointment.objects.filter(date=sun_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
-        mon_count = Appointment.objects.filter(date=mon_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
-        tues_count = Appointment.objects.filter(date=tues_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
-        wed_count = Appointment.objects.filter(date=wed_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
-        thurs_count = Appointment.objects.filter(date=thurs_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
-        fri_count = Appointment.objects.filter(date=fri_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
+        if missing_profile:
+            sat_count = sun_count = mon_count = tues_count = wed_count = thurs_count = fri_count = 0
+        else:
+            sat_count = Appointment.objects.filter(date=sat_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
+            sun_count = Appointment.objects.filter(date=sun_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
+            mon_count = Appointment.objects.filter(date=mon_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
+            tues_count = Appointment.objects.filter(date=tues_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
+            wed_count = Appointment.objects.filter(date=wed_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
+            thurs_count = Appointment.objects.filter(date=thurs_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
+            fri_count = Appointment.objects.filter(date=fri_date_str).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed')).count()
 
         context = {'admin': user,'total_patient_count': total_patient_count,'total_doctor_count':total_doctor_count,'pending_appointment':pending_appointment,'doctors':doctors,'patients':patients,'hospitals':hospitals,'lab_workers':lab_workers,'total_pharmacist_count':total_pharmacist_count,'total_hospital_count':total_hospital_count,'total_labworker_count':total_labworker_count,'sat_count': sat_count, 'sun_count': sun_count, 'mon_count': mon_count, 'tues_count': tues_count, 'wed_count': wed_count, 'thurs_count': thurs_count, 'fri_count': fri_count, 'sat': sat, 'sun': sun, 'mon': mon, 'tues': tues, 'wed': wed, 'thurs': thurs, 'fri': fri, 'pharmacists': pharmacists}
         return render(request, 'hospital_admin/admin-dashboard.html', context)

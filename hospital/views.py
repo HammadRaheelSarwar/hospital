@@ -25,6 +25,7 @@ from sslcommerz.models import Payment
 from django.db.models import Q, Count
 import re
 from io import BytesIO
+from types import SimpleNamespace
 from urllib import response
 from django.core.mail import BadHeaderError, send_mail
 from django.utils.http import urlsafe_base64_encode
@@ -227,11 +228,33 @@ def patient_register(request):
 def patient_dashboard(request):
     if request.user.is_patient:
         # patient = Patient.objects.get(user_id=pk)
-        patient = Patient.objects.get(user=request.user)
-        report = Report.objects.filter(patient=patient)
-        prescription = Prescription.objects.filter(patient=patient).order_by('-prescription_id')
-        appointments = Appointment.objects.filter(patient=patient).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed'))
-        payments = Payment.objects.filter(patient=patient).filter(appointment__in=appointments).filter(payment_type='appointment').filter(status='VALID')
+        patient = Patient.objects.filter(user=request.user).first()
+        missing_profile = patient is None
+        if patient is None:
+            patient = SimpleNamespace(
+                name=request.user.username,
+                username=request.user.username,
+                email=request.user.email,
+                phone_number='',
+                address='',
+                featured_image='patients/user-default.png',
+                blood_group='',
+                history='',
+                dob='',
+                nid='',
+                serial_number='',
+                user=request.user,
+            )
+        if missing_profile:
+            report = Report.objects.none()
+            prescription = Prescription.objects.none()
+            appointments = Appointment.objects.none()
+            payments = Payment.objects.none()
+        else:
+            report = Report.objects.filter(patient=patient)
+            prescription = Prescription.objects.filter(patient=patient).order_by('-prescription_id')
+            appointments = Appointment.objects.filter(patient=patient).filter(Q(appointment_status='pending') | Q(appointment_status='confirmed'))
+            payments = Payment.objects.filter(patient=patient).filter(appointment__in=appointments).filter(payment_type='appointment').filter(status='VALID')
         context = {'patient': patient, 'appointments': appointments, 'payments': payments,'report':report,'prescription':prescription}
     else:
         return redirect('logout')
