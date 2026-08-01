@@ -14,6 +14,7 @@ reportlab==4.4.3
 requests==2.31.0
 six==1.16.0
 sslcommerz-lib==1.0
+setuptools==75.1.0
 urllib3==1.26.18
 virtualenv==20.14.1
 whitenoise==6.2.0
