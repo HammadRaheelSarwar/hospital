@@ -42,7 +42,14 @@ def hospital_home(request):
     doctors = Doctor_Information.objects.filter(register_status='Accepted')
     hospitals = Hospital_Information.objects.all()
     context = {'doctors': doctors, 'hospitals': hospitals} 
-    return render(request, 'index-2.html', context)
+    try:
+        return render(request, 'index-2.html', context)
+    except Exception:
+        return HttpResponse(
+            '<h1>HealthStack</h1><p>The homepage is temporarily unavailable.</p>',
+            content_type='text/html',
+            status=200,
+        )
 
 @csrf_exempt
 @login_required(login_url="login")

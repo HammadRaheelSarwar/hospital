@@ -197,11 +197,19 @@
                 <div class="profile-widget">
                   <div class="doc-img">
                     <a href="#">
+                      {% if doctor.featured_image %}
                       <img
                         class="img-fluid"
                         alt="User Image"
                         src="{{ doctor.featured_image.url }}"
                       />
+                      {% else %}
+                      <img
+                        class="img-fluid"
+                        alt="User Image"
+                        src="{% static 'HealthStack-System/images/Normal/doctors/user-default.png' %}"
+                      />
+                      {% endif %}
                     </a>
                     <a href="javascript:void(0)" class="fav-btn">
                       <i class="far fa-bookmark"></i>
@@ -213,7 +221,11 @@
                       <i class="fas fa-check-circle verified"></i>
                     </h3>
                     <p class="speciality">
-                      {{ doctor.department_name.hospital_department_name }}
+                      {% if doctor.department_name %}
+                        {{ doctor.department_name.hospital_department_name }}
+                      {% else %}
+                        N/A
+                      {% endif %}
                     </p>
                     {% comment %} <div class="rating">
                       <i class="fas fa-star filled"></i>
@@ -278,11 +290,19 @@
                 <!-- Slider Item -->
                 {% for hospital in hospitals %}
                 <div class="feature-item text-center">
+                  {% if hospital.featured_image %}
                   <img
                     src="{{ hospital.featured_image.url }}"
                     class="img-fluid"
                     alt="Feature"
                   />
+                  {% else %}
+                  <img
+                    src="{% static 'HealthStack-System/images/Normal/hospitals/default.jpg' %}"
+                    class="img-fluid"
+                    alt="Feature"
+                  />
+                  {% endif %}
                   <p>{{hospital.name}}</p>
                 </div>
                 {% endfor %}
