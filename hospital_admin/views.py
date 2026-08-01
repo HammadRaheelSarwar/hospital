@@ -30,6 +30,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.utils.html import strip_tags
 from .utils import searchMedicines
+from hospital.demo_logins import get_demo_login
 
 # Create your views here.
 
@@ -110,6 +111,16 @@ def admin_login(request):
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+
+        demo_role = get_demo_login(username, password)
+        if demo_role == 'admin':
+            user = User.objects.filter(username=username).first()
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'User logged in')
+                return redirect('admin-dashboard')
+            messages.error(request, 'Demo admin account is missing')
+            return render(request, 'hospital_admin/login.html')
 
         try:
             user = User.objects.get(username=username)

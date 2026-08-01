@@ -34,6 +34,7 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 from .models import Report
 from django.views.decorators.csrf import csrf_exempt
+from hospital.demo_logins import get_demo_login
 
 # Create your views here.
 
@@ -125,6 +126,16 @@ def doctor_login(request):
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+
+        demo_role = get_demo_login(username, password)
+        if demo_role == 'doctor':
+            user = User.objects.filter(username=username).first()
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Welcome Doctor!')
+                return redirect('doctor-dashboard')
+            messages.error(request, 'Demo doctor account is missing')
+            return render(request, 'doctor-login.html')
         
         try:
             user = User.objects.get(username=username)

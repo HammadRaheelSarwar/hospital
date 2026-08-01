@@ -19,6 +19,7 @@ from django.dispatch import receiver
 from django.template.loader import get_template
 from .utils import searchDoctors, searchHospitals, searchDepartmentDoctors, paginateHospitals
 from .models import Patient, User
+from .demo_logins import get_demo_login
 from doctor.models import Doctor_Information, Appointment,Report, Specimen, Test, Prescription, Prescription_medicine, Prescription_test
 from sslcommerz.models import Payment
 from django.db.models import Q, Count
@@ -158,6 +159,16 @@ def login_user(request):
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+
+        demo_role = get_demo_login(username, password)
+        if demo_role == 'patient':
+            user = User.objects.filter(username=username).first()
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'User Logged in Successfully')
+                return redirect('patient-dashboard')
+            messages.error(request, 'Demo patient account is missing')
+            return render(request, 'patient-login.html')
 
         try:
             user = User.objects.get(username=username)
