@@ -1,320 +1,565 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <!-- doccure/index.html  30 Nov 2019 04:12:03 GMT -->
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=0"
-    />
-    <title>HealthStack</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <title>HealthStack — Next-Gen Smart Hospital & Healthcare System</title>
 
     <!-- Favicons -->
-    <link
-      type="image/x-icon"
-      href="{% static 'HealthStack-System/images/Normal/favicon.png' %}"
-      rel="icon"
-    />
+    <link type="image/x-icon" href="{% static 'HealthStack-System/images/Normal/favicon.png' %}" rel="icon" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="{% static 'HealthStack-System/css/Normal/bootstrap.min.css' %}"
-    />
+    <link rel="stylesheet" href="{% static 'HealthStack-System/css/Normal/bootstrap.min.css' %}" />
 
     <!-- Fontawesome CSS -->
-    <link
-      rel="stylesheet"
-      href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/all.min.css' %}"
-    />
+    <link rel="stylesheet" href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/fontawesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/all.min.css' %}" />
 
     <!-- Main CSS -->
-    <link
-      rel="stylesheet"
-      href="{% static 'HealthStack-System/css/Normal/style.css' %}"
-    />
+    <link rel="stylesheet" href="{% static 'HealthStack-System/css/Normal/style.css' %}" />
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.min.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
+    <!-- Custom Premium 3D & Scroll Animation Styles -->
+    <style>
+      :root {
+        --font-primary: 'Plus Jakarta Sans', sans-serif;
+        --brand-primary: #0284c7;
+        --brand-accent: #14b8a6;
+        --brand-purple: #8b5cf6;
+        --dark-bg: #0f172a;
+      }
+
+      body {
+        font-family: var(--font-primary);
+        color: #334155;
+        overflow-x: hidden;
+        background-color: #f8fafc;
+      }
+
+      /* ─── Scroll Reveal Animation ───────────────────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(35px) scale(0.98);
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity;
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      /* ─── Hero Section with Mesh Gradient & 3D Depth ────────── */
+      .hero-section-premium {
+        position: relative;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0369a1 100%);
+        overflow: hidden;
+        padding: 90px 0 100px;
+        color: #ffffff;
+      }
+
+      .hero-section-premium::before {
+        content: '';
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(14, 165, 233, 0.35) 0%, rgba(20, 184, 166, 0.15) 50%, transparent 70%);
+        top: -150px;
+        right: -100px;
+        filter: blur(80px);
+        animation: pulseGlow 8s infinite alternate ease-in-out;
+      }
+
+      .hero-section-premium::after {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+        bottom: -150px;
+        left: -100px;
+        filter: blur(80px);
+        animation: pulseGlow 10s infinite alternate-reverse ease-in-out;
+      }
+
+      @keyframes pulseGlow {
+        0% { transform: scale(0.9) translateY(0); opacity: 0.7; }
+        100% { transform: scale(1.15) translateY(20px); opacity: 1; }
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #38bdf8;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .hero-title {
+        font-size: 52px;
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 20px;
+      }
+
+      .hero-title span {
+        background: linear-gradient(135deg, #38bdf8 0%, #2dd4bf 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-subtitle {
+        font-size: 18px;
+        color: #94a3b8;
+        max-width: 540px;
+        line-height: 1.7;
+        margin-bottom: 36px;
+      }
+
+      /* 3D Tilt Card Wrapper */
+      .tilt-card-wrapper {
+        perspective: 1000px;
+      }
+
+      .tilt-card {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        transform-style: preserve-3d;
+      }
+
+      .tilt-card:hover {
+        transform: translateY(-10px) rotateX(4deg) rotateY(-4deg);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      /* ─── Glassmorphism Card ──────────────────────────────── */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .glass-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        border-color: rgba(14, 165, 233, 0.4);
+      }
+
+      /* ─── Floating 3D Stat Badges ──────────────────────────── */
+      .floating-badge-3d {
+        position: absolute;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 14px 20px;
+        border-radius: 16px;
+        color: #ffffff;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        animation: floatAnim 4s ease-in-out infinite alternate;
+        z-index: 10;
+      }
+
+      @keyframes floatAnim {
+        0% { transform: translateY(0px) rotate(0deg); }
+        100% { transform: translateY(-14px) rotate(1.5deg); }
+      }
+
+      /* ─── Stat Counter Section ────────────────────────────── */
+      .stat-section {
+        background: #ffffff;
+        padding: 50px 0;
+        margin-top: -40px;
+        position: relative;
+        z-index: 20;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f1f5f9;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 15px;
+      }
+
+      .stat-number {
+        font-size: 38px;
+        font-weight: 800;
+        color: #0f172a;
+        background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #64748b;
+        margin-top: 4px;
+      }
+
+      /* ─── Specialty Cards ─────────────────────────────────── */
+      .speciality-card-3d {
+        background: #ffffff;
+        padding: 30px 20px;
+        border-radius: 20px;
+        text-align: center;
+        border: 1px solid #f1f5f9;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+      }
+
+      .speciality-card-3d:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 35px rgba(2, 132, 199, 0.12);
+        border-color: #38bdf8;
+      }
+
+      .speciality-card-3d .speicality-img {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 16px;
+        border-radius: 50%;
+        background: #f0f9ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .speciality-card-3d:hover .speicality-img {
+        background: #0284c7;
+        transform: rotateY(180deg);
+      }
+
+      /* ─── Doctor Widget Premium ────────────────────────────── */
+      .doctor-widget-3d {
+        background: #ffffff;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid #f1f5f9;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        transition: all 0.4s ease;
+        margin: 12px 6px;
+      }
+
+      .doctor-widget-3d:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        border-color: #cbd5e1;
+      }
+
+      .doctor-widget-3d .doc-img {
+        position: relative;
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .doctor-widget-3d .doc-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .doctor-widget-3d:hover .doc-img img {
+        transform: scale(1.08);
+      }
+
+      .fee-badge {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(8px);
+        color: #2dd4bf;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+    </style>
   </head>
   <body>
     <!-- Main Wrapper -->
     <div class="main-wrapper">
       <!-- Header -->
       <header class="header">{% include 'navbar_home.html' %}</header>
-      <!-- header -->
+      <!-- /Header -->
 
-      <!-- Home Banner -->
-      <section class="section section-search" style="background-color:rgb(172, 209, 242); padding-bottom: 0px;min-height: 0px;padding-left: 0px;padding-right: 0px;">
-        <div  style="background-color:rgb(172, 209, 242)">
-          <div class="banner-wrapper" style="background-color:rgb(172, 209, 242);padding-bottom: 20px;padding-top: 12px;"> 
-            <div class="banner-header text-center">
-              <h1>Welcome To HealthStack</h1>
-              <p>
-                Choose well by choosing us.
+      <!-- ─── Premium 3D Hero Banner ─────────────────────────── -->
+      <section class="hero-section-premium">
+        <div class="container">
+          <div class="row align-items-center">
+            
+            <div class="col-lg-6 reveal active">
+              <div class="hero-badge">
+                <i class="fas fa-sparkles"></i> AI-Powered Healthcare Platform
+              </div>
+              <h1 class="hero-title">
+                Better Healthcare,<br />
+                <span>Better Tomorrow</span>
+              </h1>
+              <p class="hero-subtitle">
+                HealthStack connects patients, doctors, and hospitals seamlessly. Book instant appointments, access digital health records, and receive world-class medical care anytime.
               </p>
-            </div>
 
-           
-            <!-- /Search -->
-          </div>
-          <div class="home-image">
-            <img
-              src="{% static 'HealthStack-System/images/Normal/p2.png' %}"
-              class="img-fluid" style="width: 100%;"
-            />
-          </div>
-        </div>
-      </section>
-      <!-- /Home Banner -->
-
-      <!-- Clinic and Specialities -->
-      <section class="section section-specialities" style="padding-top: 80px">
-        <div class="container-fluid">
-          <div class="section-header text-center">
-            <h2>Clinic and Specialities</h2>
-            <p class="sub-title">
-            </p>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-md-9">
-              <!-- Slider -->
-              <div class="specialities-slider slider">
-                <!-- Slider Item -->
-                <div class="speicality-item text-center">
-                  <div class="speicality-img">
-                    <img
-                      src="{% static 'HealthStack-System/images/Normal/specialities/specialities-01.png' %}"
-                      class="img-fluid"
-                      alt="Speciality"
-                    />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                  </div>
-                  <p>Urology</p>
-                </div>
-                <!-- /Slider Item -->
-
-                <!-- Slider Item -->
-                <div class="speicality-item text-center">
-                  <div class="speicality-img">
-                    <img
-                      src="{% static 'HealthStack-System/images/Normal/specialities/specialities-02.png' %}"
-                      class="img-fluid"
-                      alt="Speciality"
-                    />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                  </div>
-                  <p>Neurology</p>
-                </div>
-                <!-- /Slider Item -->
-
-                <!-- Slider Item -->
-                <div class="speicality-item text-center">
-                  <div class="speicality-img">
-                    <img
-                      src="{% static 'HealthStack-System/images/Normal/specialities/specialities-03.png' %}"
-                      class="img-fluid"
-                      alt="Speciality"
-                    />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                  </div>
-                  <p>Orthopedic</p>
-                </div>
-                <!-- /Slider Item -->
-
-                <!-- Slider Item -->
-                <div class="speicality-item text-center">
-                  <div class="speicality-img">
-                    <img
-                      src="{% static 'HealthStack-System/images/Normal/specialities/specialities-04.png' %}"
-                      class="img-fluid"
-                      alt="Speciality"
-                    />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                  </div>
-                  <p>Cardiologist</p>
-                </div>
-                <!-- /Slider Item -->
-
-                <!-- Slider Item -->
-                <div class="speicality-item text-center">
-                  <div class="speicality-img">
-                    <img
-                      src="{% static 'HealthStack-System/images/Normal/specialities/specialities-05.png' %}"
-                      class="img-fluid"
-                      alt="Speciality"
-                    />
-                    <span><i class="fa fa-circle" aria-hidden="true"></i></span>
-                  </div>
-                  <p>Dentist</p>
-                </div>
-                <!-- /Slider Item -->
+              <div class="d-flex flex-wrap gap-3 align-items-center">
+                <a href="{% url 'login' %}" class="btn" style="padding: 14px 32px; background: linear-gradient(135deg, #0284c7 0%, #0d9488 100%); color: #ffffff; font-weight: 700; border-radius: 14px; box-shadow: 0 8px 25px rgba(2, 132, 199, 0.4); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                  <i class="fas fa-calendar-check"></i> Book Appointment
+                </a>
+                <a href="{% url 'about-us' %}" class="btn" style="padding: 14px 28px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); color: #ffffff; font-weight: 600; border-radius: 14px; border: 1px solid rgba(255,255,255,0.2); text-decoration: none;">
+                  Learn More
+                </a>
               </div>
-              <!-- /Slider -->
             </div>
+
+            <div class="col-lg-6 mt-5 mt-lg-0 tilt-card-wrapper reveal active">
+              <div class="position-relative tilt-card">
+                
+                <!-- Main Image Banner -->
+                <div style="border-radius: 28px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.2);">
+                  <img
+                    src="{% static 'HealthStack-System/images/Normal/p2.png' %}"
+                    class="img-fluid"
+                    alt="HealthStack Hero"
+                    style="width: 100%; display: block;"
+                  />
+                </div>
+
+                <!-- Floating 3D Badge 1 -->
+                <div class="floating-badge-3d" style="top: -20px; left: -20px;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: #0284c7; display: flex; align-items: center; justify-content: center;">
+                      <i class="fas fa-user-md" style="color: #fff; font-size: 16px;"></i>
+                    </div>
+                    <div>
+                      <div style="font-size: 14px; font-weight: 800; color: #fff;">500+</div>
+                      <div style="font-size: 10px; color: #94a3b8;">Verified Doctors</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Floating 3D Badge 2 -->
+                <div class="floating-badge-3d" style="bottom: -20px; right: -20px; animation-delay: -2s;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: #10b981; display: flex; align-items: center; justify-content: center;">
+                      <i class="fas fa-check-circle" style="color: #fff; font-size: 16px;"></i>
+                    </div>
+                    <div>
+                      <div style="font-size: 14px; font-weight: 800; color: #fff;">99.8%</div>
+                      <div style="font-size: 10px; color: #94a3b8;">Satisfaction Rate</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
-      <!-- Clinic and Specialities -->
+      <!-- /Hero Banner -->
 
-      <!-- Popular Section -->
-      <section class="section section-doctor">
-        <div class="container-fluid">
+      <!-- ─── Interactive Stat Counter Bar ────────────────────── -->
+      <div class="container">
+        <div class="stat-section reveal">
           <div class="row">
-            <div class="col-lg-4">
-              <div class="section-header">
-                <h2>Book Our Doctor</h2>
-                <p>From the Best</p>
+            <div class="col-6 col-md-3">
+              <div class="stat-item">
+                <div class="stat-number">10k+</div>
+                <div class="stat-label">Happy Patients</div>
               </div>
-              <div class="about-content">
-                <p>
-                  You can book doctors from any hospital from here.
-                </p>
-                <!-- <p>
-                  web page editors now use Lorem Ipsum as their default model
-                  text, and a search for 'lorem ipsum' will uncover many web
-                  sites still in their infancy. Various versions have evolved
-                  over the years, sometimes
-                </p> -->
-                <!-- <a href="javascript:;">Read More..</a> -->
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Specialist Doctors</div>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Partner Hospitals</div>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Emergency Care</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Clinic and Specialities Section ──────────────────── -->
+      <section class="section section-specialities py-5" style="padding-top: 100px !important;">
+        <div class="container">
+          <div class="section-header text-center mb-5 reveal">
+            <h2 style="font-size: 34px; font-weight: 800; color: #0f172a;">Clinic and Specialities</h2>
+            <p style="color: #64748b; font-size: 16px;">Comprehensive medical services tailored for your well-being</p>
+          </div>
+
+          <div class="row g-4 justify-content-center">
+            
+            <div class="col-6 col-md-4 col-lg-2 reveal">
+              <div class="speciality-card-3d">
+                <div class="speicality-img">
+                  <img src="{% static 'HealthStack-System/images/Normal/specialities/specialities-01.png' %}" class="img-fluid" alt="Urology" />
+                </div>
+                <h5 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0;">Urology</h5>
               </div>
             </div>
 
+            <div class="col-6 col-md-4 col-lg-2 reveal">
+              <div class="speciality-card-3d">
+                <div class="speicality-img">
+                  <img src="{% static 'HealthStack-System/images/Normal/specialities/specialities-02.png' %}" class="img-fluid" alt="Neurology" />
+                </div>
+                <h5 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0;">Neurology</h5>
+              </div>
+            </div>
 
-            <div class="col-lg-8">
+            <div class="col-6 col-md-4 col-lg-2 reveal">
+              <div class="speciality-card-3d">
+                <div class="speicality-img">
+                  <img src="{% static 'HealthStack-System/images/Normal/specialities/specialities-03.png' %}" class="img-fluid" alt="Orthopedic" />
+                </div>
+                <h5 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0;">Orthopedic</h5>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2 reveal">
+              <div class="speciality-card-3d">
+                <div class="speicality-img">
+                  <img src="{% static 'HealthStack-System/images/Normal/specialities/specialities-04.png' %}" class="img-fluid" alt="Cardiology" />
+                </div>
+                <h5 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0;">Cardiology</h5>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2 reveal">
+              <div class="speciality-card-3d">
+                <div class="speicality-img">
+                  <img src="{% static 'HealthStack-System/images/Normal/specialities/specialities-05.png' %}" class="img-fluid" alt="Dentist" />
+                </div>
+                <h5 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0;">Dentistry</h5>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Book Our Doctor Section ──────────────────────────── -->
+      <section class="section section-doctor py-5" style="background: #ffffff;">
+        <div class="container">
+          <div class="row align-items-center">
+            
+            <div class="col-lg-4 mb-4 mb-lg-0 reveal">
+              <div class="pe-lg-4">
+                <span style="color: #0284c7; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">World-Class Physicians</span>
+                <h2 style="font-size: 36px; font-weight: 800; color: #0f172a; margin: 8px 0 16px;">Book Our Top Doctors</h2>
+                <p style="color: #64748b; line-height: 1.7; font-size: 15px; margin-bottom: 24px;">
+                  Schedule instant consultations with certified specialists across leading medical centers.
+                </p>
+                <a href="{% url 'login' %}" class="btn" style="padding: 12px 28px; background: #0f172a; color: #ffffff; font-weight: 700; border-radius: 12px; text-decoration: none;">
+                  View All Doctors <i class="fas fa-arrow-right style="margin-left: 6px;"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-8 reveal">
               <div class="doctor-slider slider">
 
                 {% for doctor in doctors %}
-                <!-- Doctor Widget -->
-                <div class="profile-widget">
+                <div class="doctor-widget-3d">
                   <div class="doc-img">
-                    <a href="#">
-                      {% if doctor.featured_image %}
-                      <img
-                        class="img-fluid"
-                        alt="User Image"
-                        src="{{ doctor.featured_image.url }}"
-                      />
-                      {% else %}
-                      <img
-                        class="img-fluid"
-                        alt="User Image"
-                        src="{% static 'HealthStack-System/images/Normal/doctors/user-default.png' %}"
-                      />
-                      {% endif %}
-                    </a>
-                    <a href="javascript:void(0)" class="fav-btn">
-                      <i class="far fa-bookmark"></i>
-                    </a>
+                    {% if doctor.featured_image %}
+                    <img alt="{{ doctor.name }}" src="{{ doctor.featured_image.url }}" />
+                    {% else %}
+                    <img alt="Doctor" src="{% static 'HealthStack-System/images/Normal/doctors/user-default.png' %}" />
+                    {% endif %}
+                    <div class="fee-badge">
+                      ৳ {{ doctor.consultation_fee|default:"1000" }} BDT
+                    </div>
                   </div>
-                  <div class="pro-content">
-                    <h3 class="title">
-                      <a href="doctor-profile.html">{{doctor.name}}</a>
-                      <i class="fas fa-check-circle verified"></i>
-                    </h3>
-                    <p class="speciality">
+                  <div style="padding: 20px;">
+                    <h4 style="font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+                      <span>{{ doctor.name }}</span>
+                      <i class="fas fa-check-circle" style="color: #0284c7; font-size: 16px;"></i>
+                    </h4>
+                    <p style="font-size: 13px; color: #0d9488; font-weight: 600; margin-bottom: 12px;">
                       {% if doctor.department_name %}
                         {{ doctor.department_name.hospital_department_name }}
                       {% else %}
-                        N/A
+                        General Specialist
                       {% endif %}
                     </p>
-                    {% comment %} <div class="rating">
-                      <i class="fas fa-star filled"></i>
-                      <i class="fas fa-star filled"></i>
-                      <i class="fas fa-star filled"></i>
-                      <i class="fas fa-star filled"></i>
-                      <i class="fas fa-star filled"></i>
-                      <span class="d-inline-block average-rating">(17)</span>
-                    </div> {% endcomment %}
-                    <ul class="available-info">
-                      <li>
-                        <i class="fas fa-map-marker-alt"></i> {{doctor.hospital_name}}
-                      </li>
-                      <li>
-                        <i class="far fa-clock"></i> {{ doctor.visiting_hour }}
-                      </li>
-                      <li>
-                        <i class="far fa-money-bill-alt"></i> Consulation fee: {{ doctor.consultation_fee }} BDT
-                        <i
-                          class="fas fa-info-circle"
-                          data-toggle="tooltip"
-                          title="Lorem Ipsum"
-                        ></i>
-                      </li>
-                    </ul>
-                    
+                    <div style="font-size: 12px; color: #64748b; display: flex; flex-direction: column; gap: 6px;">
+                      <div><i class="fas fa-hospital-alt" style="color: #94a3b8; width: 16px;"></i> {{ doctor.hospital_name|default:"HealthStack Center" }}</div>
+                      <div><i class="far fa-clock" style="color: #94a3b8; width: 16px;"></i> {{ doctor.visiting_hour|default:"09:00 AM - 05:00 PM" }}</div>
+                    </div>
                   </div>
                 </div>
-                <!-- /Doctor Widget -->
                 {% endfor %}
 
-
-               
               </div>
             </div>
 
           </div>
         </div>
       </section>
-      <!-- /Popular Section -->
 
-      <!-- Availabe Features -->
-      <section class="section section-features">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-5 features-img">
-              <img
-                src="{% static 'HealthStack-System/images/Normal/pppp.jpg' %}"
-                class="img-fluid"
-                alt="Feature"
-              />
-            </div>
-            <div class="col-md-7">
-              <div class="section-header">
-                <h2 class="mt-2">Availabe Hospitals</h2>
-                <p>
-                  Here You can access multiple hospitals. You can book your appointment from
-                  your doctor & can collect all hospital infromations from here.
-                </p>
+      <!-- ─── Available Hospitals Section ────────────────────────── -->
+      <section class="section section-features py-5" style="background: #f8fafc;">
+        <div class="container">
+          <div class="row align-items-center">
+            
+            <div class="col-md-5 mb-4 mb-md-0 reveal">
+              <div style="border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border: 2px solid #ffffff;">
+                <img src="{% static 'HealthStack-System/images/Normal/pppp.jpg' %}" class="img-fluid" alt="Hospital Features" style="width: 100%; display: block;" />
               </div>
+            </div>
+
+            <div class="col-md-7 ps-md-5 reveal">
+              <span style="color: #0d9488; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">Hospital Network</span>
+              <h2 style="font-size: 34px; font-weight: 800; color: #0f172a; margin: 8px 0 16px;">Available Hospitals</h2>
+              <p style="color: #64748b; font-size: 15px; line-height: 1.7; margin-bottom: 30px;">
+                Access partner medical centers, specialized outpatient clinics, and diagnostic facilities from a single unified portal.
+              </p>
+
               <div class="features-slider slider">
-                <!-- Slider Item -->
                 {% for hospital in hospitals %}
-                <div class="feature-item text-center">
+                <div style="background: #ffffff; padding: 20px; border-radius: 18px; border: 1px solid #e2e8f0; text-align: center; margin: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
                   {% if hospital.featured_image %}
-                  <img
-                    src="{{ hospital.featured_image.url }}"
-                    class="img-fluid"
-                    alt="Feature"
-                  />
+                  <img src="{{ hospital.featured_image.url }}" class="img-fluid mb-3" alt="{{ hospital.name }}" style="height: 100px; width: 100%; object-fit: cover; border-radius: 12px;" />
                   {% else %}
-                  <img
-                    src="{% static 'HealthStack-System/images/Normal/hospitals/default.jpg' %}"
-                    class="img-fluid"
-                    alt="Feature"
-                  />
+                  <img src="{% static 'HealthStack-System/images/Normal/hospitals/default.jpg' %}" class="img-fluid mb-3" alt="Hospital" style="height: 100px; width: 100%; object-fit: cover; border-radius: 12px;" />
                   {% endif %}
-                  <p>{{hospital.name}}</p>
+                  <h6 style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0;">{{ hospital.name }}</h6>
                 </div>
                 {% endfor %}
-                <!-- /Slider Item -->
-
-                
               </div>
             </div>
+
           </div>
         </div>
       </section>
-      <!-- Availabe Features -->
 
       <!-- Footer -->
       {% include 'footer.html' %}
@@ -329,21 +574,44 @@
     <script src="{% static 'HealthStack-System/js/Normal/popper.min.js' %}"></script>
     <script src="{% static 'HealthStack-System/js/Normal/bootstrap.min.js' %}"></script>
 
-    <link
-      rel="stylesheet"
-      href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/fontawesome.min.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'HealthStack-System/plugins/Normal/fontawesome/css/all.min.css' %}"
-    />
-
     <!-- Slick JS -->
     <script src="{% static 'HealthStack-System/Outside_assets/js/slick.js' %}"></script>
 
     <!-- Custom JS -->
     <script src="{% static 'HealthStack-System/Outside_assets/js/script.js' %}"></script>
-  </body>
 
-  <!-- doccure/index.html  30 Nov 2019 04:12:03 GMT -->
+    <!-- ─── Interactive Scroll Reveal & 3D Parallax Script ────── -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // IntersectionObserver for Scroll Reveal Animation
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+            }
+          });
+        }, { threshold: 0.1 });
+
+        reveals.forEach((el) => observer.observe(el));
+
+        // 3D Parallax Tilt Effect on Mouse Move
+        const tiltCards = document.querySelectorAll(".tilt-card");
+        tiltCards.forEach((card) => {
+          card.parentElement.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            const rotateX = (-y / rect.height) * 15;
+            const rotateY = (x / rect.width) * 15;
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+          });
+
+          card.parentElement.addEventListener("mouseleave", () => {
+            card.style.transform = "rotateX(0deg) rotateY(0deg) translateY(0px)";
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
