@@ -28,10 +28,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-build-only-placeholder')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['192.168.0.100', '127.0.0.1','5749-103-109-53-5.in.ngrok.io']
 # ALLOWED_HOSTS = ['mobile view', 'local host','ngrok -- keeps on changing']
@@ -152,15 +152,15 @@ STATICFILES_DIRS = [
 
 ### SSLCOMMERZ env variables
 #VARIABLE should be in capital letter.
-STORE_ID = env('STORE_ID')
-STORE_PASSWORD = env('STORE_PASSWORD')
-STORE_NAME = env('STORE_NAME')
+STORE_ID = env('STORE_ID', default='')
+STORE_PASSWORD = env('STORE_PASSWORD', default='')
+STORE_NAME = env('STORE_NAME', default='')
 
 ###Mailtrap env Variables
-SMTP_HOST = env('SMTP_HOST')
-SMTP_PORT = env('SMTP_PORT')
-SMTP_USER = env('SMTP_USER')
-SMTP_PASSWORD = env('SMTP_PASSWORD')
+SMTP_HOST = env('SMTP_HOST', default='')
+SMTP_PORT = env.int('SMTP_PORT', default=587)
+SMTP_USER = env('SMTP_USER', default='')
+SMTP_PASSWORD = env('SMTP_PASSWORD', default='')
 
 # EMAIL
 
