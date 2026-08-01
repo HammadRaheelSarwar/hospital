@@ -34,7 +34,6 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 from .models import Report
 from django.views.decorators.csrf import csrf_exempt
-from hospital.demo_accounts import ensure_demo_accounts
 
 # Create your views here.
 
@@ -121,7 +120,6 @@ def doctor_register(request):
 @csrf_exempt
 def doctor_login(request):
     # page = 'patient_login'
-    ensure_demo_accounts()
     if request.method == 'GET':
         return render(request, 'doctor-login.html')
     elif request.method == 'POST':

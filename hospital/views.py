@@ -19,7 +19,6 @@ from django.dispatch import receiver
 from django.template.loader import get_template
 from .utils import searchDoctors, searchHospitals, searchDepartmentDoctors, paginateHospitals
 from .models import Patient, User
-from .demo_accounts import ensure_demo_accounts
 from doctor.models import Doctor_Information, Appointment,Report, Specimen, Test, Prescription, Prescription_medicine, Prescription_test
 from sslcommerz.models import Payment
 from django.db.models import Q, Count
@@ -154,7 +153,6 @@ def pharmacy_shop(request):
 @csrf_exempt
 def login_user(request):
     page = 'patient_login'
-    ensure_demo_accounts()
     if request.method == 'GET':
         return render(request, 'patient-login.html')
     elif request.method == 'POST':
