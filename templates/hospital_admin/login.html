@@ -83,9 +83,38 @@
 								</div>
 								  
 								<div class="text-center dont-have">Return to <a href="{%url 'hospital_home' %}">Homepage</a></div>
-								
-								<div class="text-center dont-have">Don't have an account? <a href="{%url 'admin_register'%}">Register</a></div>
-							</div>
+					
+					<div class="text-center dont-have">Don't have an account? <a href="{%url 'admin_register'%}">Register</a></div>
+
+					<!-- ─── Demo Credentials Quick-Access ─────────────────── -->
+					<div style="margin-top:16px;padding:14px 16px;background:#faf5ff;border:1px solid #d8b4fe;border-radius:10px;">
+					  <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#7c3aed;margin-bottom:10px;">
+					    🔑 Demo Accounts — Click to Auto-Login
+					  </p>
+					  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+					    <button type="button" onclick="demoLogin('admin@gmail.com','admin123')"
+					      style="padding:8px 10px;background:#fff;border:1px solid #d8b4fe;border-radius:8px;font-size:12px;font-weight:600;color:#7c3aed;cursor:pointer;text-align:left;transition:border-color .2s;"
+					      onmouseover="this.style.borderColor='#a855f7'" onmouseout="this.style.borderColor='#d8b4fe'">
+					      🏥 Hospital Admin<br><span style="font-weight:400;color:#64748b;font-size:11px;">admin@gmail.com</span>
+					    </button>
+					    <button type="button" onclick="window.location.href='{% url 'login' %}'"
+					      style="padding:8px 10px;background:#fff;border:1px solid #d8b4fe;border-radius:8px;font-size:12px;font-weight:600;color:#7c3aed;cursor:pointer;text-align:left;transition:border-color .2s;"
+					      onmouseover="this.style.borderColor='#a855f7'" onmouseout="this.style.borderColor='#d8b4fe'">
+					      🧑‍⚕️ Patient Login<br><span style="font-weight:400;color:#64748b;font-size:11px;">→ patient-login page</span>
+					    </button>
+					    <button type="button" onclick="window.location.href='{% url 'doctor-login' %}'"
+					      style="padding:8px 10px;background:#fff;border:1px solid #d8b4fe;border-radius:8px;font-size:12px;font-weight:600;color:#7c3aed;cursor:pointer;text-align:left;transition:border-color .2s;"
+					      onmouseover="this.style.borderColor='#a855f7'" onmouseout="this.style.borderColor='#d8b4fe'">
+					      👨‍⚕️ Doctor Login<br><span style="font-weight:400;color:#64748b;font-size:11px;">→ doctor-login page</span>
+					    </button>
+					  </div>
+					  <p style="font-size:10px;color:#64748b;margin-top:8px;margin-bottom:0;text-align:center;">
+					    Demo password: <strong>admin123</strong> &nbsp;|&nbsp; All data is fictional for demo only.
+					  </p>
+					</div>
+					<!-- ─── /Demo Credentials ─────────────────────────────── -->
+
+				</div>
                         </div>
                     </div>
                 </div>
@@ -121,6 +150,13 @@
 			} else {
 				x.type = "password";
 			}
+			}
+
+			// Demo login auto-fill & submit
+			function demoLogin(username, password) {
+				document.querySelector('input[name="username"]').value = username;
+				document.querySelector('input[name="password"]').value = password;
+				document.querySelector('form').submit();
 			}
 			</script>
 		  

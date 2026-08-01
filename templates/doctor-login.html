@@ -143,6 +143,34 @@
                         <a href="{% url 'admin-login' %}" style="color: skyblue;text-decoration: none;"> Admin? </a></b>
                       </div>
  
+                      <!-- ─── Demo Credentials Quick-Access ─────────────────── -->
+                      <div style="margin-top:18px;padding:14px 16px;background:#f0fff4;border:1px solid #bbf7d0;border-radius:10px;">
+                        <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#15803d;margin-bottom:10px;">
+                          🔑 Demo Accounts — Click to Auto-Login
+                        </p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                          <button type="button" onclick="demoLogin('doctor@gmail.com','doctor123')"
+                            style="padding:8px 10px;background:#fff;border:1px solid #bbf7d0;border-radius:8px;font-size:12px;font-weight:600;color:#15803d;cursor:pointer;text-align:left;transition:border-color .2s;"
+                            onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='#bbf7d0'">
+                            👨‍⚕️ Doctor<br><span style="font-weight:400;color:#64748b;font-size:11px;">doctor@gmail.com</span>
+                          </button>
+                          <button type="button" onclick="window.location.href='{% url 'login' %}'"
+                            style="padding:8px 10px;background:#fff;border:1px solid #bbf7d0;border-radius:8px;font-size:12px;font-weight:600;color:#15803d;cursor:pointer;text-align:left;transition:border-color .2s;"
+                            onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='#bbf7d0'">
+                            🧑‍⚕️ Patient Login<br><span style="font-weight:400;color:#64748b;font-size:11px;">→ patient-login page</span>
+                          </button>
+                          <button type="button" onclick="window.location.href='{% url 'admin-login' %}?demo=1'"
+                            style="padding:8px 10px;background:#fff;border:1px solid #bbf7d0;border-radius:8px;font-size:12px;font-weight:600;color:#15803d;cursor:pointer;text-align:left;transition:border-color .2s;"
+                            onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='#bbf7d0'">
+                            🏥 Admin Login<br><span style="font-weight:400;color:#64748b;font-size:11px;">→ admin-login page</span>
+                          </button>
+                        </div>
+                        <p style="font-size:10px;color:#64748b;margin-top:8px;margin-bottom:0;text-align:center;">
+                          Demo password: <strong>doctor123</strong> &nbsp;|&nbsp; All data is fictional for demo only.
+                        </p>
+                      </div>
+                      <!-- ─── /Demo Credentials ─────────────────────────────── -->
+
                     </form>
                   </div>
                 </div>
@@ -190,6 +218,13 @@
       } else {
         x.type = "password";
       }
+      }
+
+      // Demo login auto-fill & submit
+      function demoLogin(username, password) {
+        document.querySelector('input[name="username"]').value = username;
+        document.querySelector('input[name="password"]').value = password;
+        document.querySelector('form').submit();
       }
     </script>
 
