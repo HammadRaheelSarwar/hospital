@@ -35,7 +35,6 @@ urlpatterns = [
     path('chat/', include('ChatApp.urls')),
     path('sslcommerz/', include('sslcommerz.urls')),
     path('pharmacy/', include('pharmacy.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
     
     # For forgot password views and reset password views
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="reset_password.html"),name="reset-password"),
@@ -46,8 +45,15 @@ urlpatterns = [
     
 ]
 
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=getattr(settings, 'STATIC_ROOT', None))
 
 # if settings.debug:
 #     import debug_toolbar

@@ -33,7 +33,14 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-build-only-placeholder')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ['192.168.0.100', '127.0.0.1','5749-103-109-53-5.in.ngrok.io']
+ALLOWED_HOSTS = [
+    '192.168.0.100',
+    '127.0.0.1',
+    'localhost',
+    '.vercel.app',
+    'hospital-tawny-two.vercel.app',
+    '5749-103-109-53-5.in.ngrok.io',
+]
 # ALLOWED_HOSTS = ['mobile view', 'local host','ngrok -- keeps on changing']
 
 # Application definition
@@ -142,6 +149,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
