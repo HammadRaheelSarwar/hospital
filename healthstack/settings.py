@@ -189,5 +189,6 @@ AUTH_USER_MODEL = 'hospital.User'
 
 
 # SESSION AGE 45 Minutes
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_AGE = 45*60
 SESSION_SAVE_EVERY_REQUEST = True
