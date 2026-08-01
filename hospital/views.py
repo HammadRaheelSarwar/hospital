@@ -40,18 +40,10 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 @csrf_exempt
 def hospital_home(request):
-    # .order_by('-created_at')[:6]
     doctors = Doctor_Information.objects.filter(register_status='Accepted')
     hospitals = Hospital_Information.objects.all()
     context = {'doctors': doctors, 'hospitals': hospitals} 
-    try:
-        return render(request, 'index-2.html', context)
-    except Exception:
-        return HttpResponse(
-            '<h1>HealthStack</h1><p>The homepage is temporarily unavailable.</p>',
-            content_type='text/html',
-            status=200,
-        )
+    return render(request, 'index-2.html', context)
 
 @csrf_exempt
 @login_required(login_url="login")
