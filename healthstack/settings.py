@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'doctor.apps.DoctorConfig',
     'pharmacy.apps.PharmacyConfig',
     'sslcommerz.apps.SslcommerzConfig',
-    'widget_tweaks',
     'rest_framework',
     'ChatApp.apps.ChatappConfig',
     'debug_toolbar',
