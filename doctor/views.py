@@ -22,6 +22,7 @@ import random
 import string
 from datetime import datetime, timedelta
 import datetime
+import os
 import re
 from types import SimpleNamespace
 from django.core.mail import BadHeaderError, send_mail
@@ -686,14 +687,18 @@ def doctor_view_report(request, pk):
 @csrf_exempt
 @receiver(user_logged_in)
 def got_online(sender, user, request, **kwargs):    
+    if os.environ.get('VERCEL'):
+        return
     user.login_status = True
-    user.save()
+    user.save(update_fields=['login_status'])
 
 @csrf_exempt
 @receiver(user_logged_out)
 def got_offline(sender, user, request, **kwargs):   
+    if os.environ.get('VERCEL'):
+        return
     user.login_status = False
-    user.save()
+    user.save(update_fields=['login_status'])
 
 @csrf_exempt
 @login_required(login_url="login")
@@ -726,5 +731,4 @@ def doctor_review(request, pk):
  
    
  
-
 

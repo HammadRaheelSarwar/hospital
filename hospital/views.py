@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import datetime
 import datetime
+import os
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver
 from django.template.loader import get_template
@@ -749,14 +750,17 @@ def delete_report(request,pk):
 @csrf_exempt
 @receiver(user_logged_in)
 def got_online(sender, user, request, **kwargs):    
+    if os.environ.get('VERCEL'):
+        return
     user.login_status = True
-    user.save()
+    user.save(update_fields=['login_status'])
 
 @csrf_exempt
 @receiver(user_logged_out)
 def got_offline(sender, user, request, **kwargs):   
+    if os.environ.get('VERCEL'):
+        return
     user.login_status = False
-    user.save()
+    user.save(update_fields=['login_status'])
     
-
 
