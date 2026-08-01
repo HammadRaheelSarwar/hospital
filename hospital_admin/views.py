@@ -30,6 +30,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.utils.html import strip_tags
 from .utils import searchMedicines
+from hospital.demo_accounts import ensure_demo_accounts
 
 # Create your views here.
 
@@ -105,6 +106,7 @@ def logoutAdmin(request):
 @csrf_exempt
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_login(request):
+    ensure_demo_accounts()
     if request.method == 'GET':
         return render(request, 'hospital_admin/login.html')
     elif request.method == 'POST':
