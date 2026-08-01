@@ -66,6 +66,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -147,15 +148,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_URL = '/images/'
+STATIC_URL = '/static/'
+STATIC_ROOT = None if os.environ.get('VERCEL') else os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/static/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+# Vercel does not run Django's development static-file server. WhiteNoise uses
+# Django's finders so repository assets can be served without a collectstatic
+# build step, including the existing images stored under static/images.
+WHITENOISE_USE_FINDERS = True
 
 ### SSLCOMMERZ env variables
 #VARIABLE should be in capital letter.
