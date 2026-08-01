@@ -3,7 +3,6 @@ from urllib import response
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.http import HttpResponse
-from xhtml2pdf import pisa
 from doctor.models import Prescription
 from doctor.models import  Prescription,Prescription_medicine,Prescription_test
 from hospital.models import Patient
@@ -11,6 +10,8 @@ from datetime import datetime
 
 
 def render_to_pdf(template_src, context_dict={}):
+    from xhtml2pdf import pisa
+
     template=get_template(template_src)
     html=template.render(context_dict)
     result=BytesIO()

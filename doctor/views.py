@@ -1,7 +1,6 @@
 import email
 from email import message
 from multiprocessing import context
-from turtle import title
 from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -33,7 +32,6 @@ from urllib import response
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.http import HttpResponse
-from xhtml2pdf import pisa
 from .models import Report
 from django.views.decorators.csrf import csrf_exempt
 

@@ -4,7 +4,6 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from .pres_pdf import prescription_pdf
 
 # from . --> same directory
 # Views functions and urls must be linked. # of views == # of urls

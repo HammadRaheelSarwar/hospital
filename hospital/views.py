@@ -17,7 +17,6 @@ import datetime
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver
 from django.template.loader import get_template
-from xhtml2pdf import pisa
 from .utils import searchDoctors, searchHospitals, searchDepartmentDoctors, paginateHospitals
 from .models import Patient, User
 from doctor.models import Doctor_Information, Appointment,Report, Specimen, Test, Prescription, Prescription_medicine, Prescription_test
