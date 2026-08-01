@@ -5,7 +5,8 @@ from django.template.loader import get_template
 from django.http import HttpResponse
 from xhtml2pdf import pisa
 from .models import Report
-from .models import  Report,Specimen,Test
+from .models import Report, Specimen, Test
+from .models import Prescription, Prescription_medicine, Prescription_test
 from hospital.models import Patient
 from datetime import datetime
 

@@ -517,15 +517,14 @@ def test_cart(request):
 @csrf_exempt
 @login_required(login_url="login")
 def test_single(request,pk):
-     if request.user.is_authenticated and request.user.is_patient:
-         
+    if request.user.is_authenticated and request.user.is_patient:
         patient = Patient.objects.get(user=request.user)
-        Perscription_test = Perscription_test.objects.get(test_id=pk)
+        prescription_test = Prescription_test.objects.get(test_id=pk)
         carts = testCart.objects.filter(user=request.user, purchased=False)
-        
-        context = {'patient': patient, 'carts': carts, 'Perscription_test': Perscription_test}
+
+        context = {'patient': patient, 'carts': carts, 'Prescription_test': prescription_test}
         return render(request, 'test-cart.html',context)
-     else:
+    else:
         logout(request)
         messages.info(request, 'Not Authorized')
         return render(request, 'patient-login.html')  
